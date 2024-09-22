@@ -101,6 +101,7 @@ mat-card-title {
   height: 40px;
   width: 40px;
   font-size: 2em;
+  border-radius: 20%;
 }
 .spacer{
   flex-grow: 1;

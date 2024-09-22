@@ -20,7 +20,7 @@
     class="sidenav-container">
     <mat-sidenav-content class="sidenav-content">
       @if (!!schema) {
-        <app-roles class="roles" [tables]="getTableNamesFromPrimaryKeys(schema)" (clearEvent)="this.schema=undefined"
+        <app-roles class="roles" [tables]="getTableNamesFromPrimaryKeys(schema)" (clearEvent)="this.schema=undefined;localStorage.clear()"
                    (generateEvent)="generateRLS($event)" (deleteTableEvent)="deleteTable($event)"></app-roles>
         <div class="generated-rls">
           <ngx-monaco-editor class="generated-rls-editor" [options]="editorOptions"
@@ -46,7 +46,7 @@
               </li>
               <li>
                 <p>
-                  <button mat-button (click)="clipboard.copy(SchemaQuery)">
+                  <button mat-flat-button (click)="clipboard.copy(SchemaQuery)">
                     Click here
                   </button>
                   to copy this SQL query into your database to get a simplified version of the schema as JSON containing
@@ -75,10 +75,14 @@
   <div style="display: flex;flex-direction: column; align-items: center;padding: 20px;gap: 10px">
     <div style="color: white">
       <mat-label style="font-size: 25px">API Key</mat-label>
-      <p> Set your OpenAI API key. You can grab it <a target="_blank" style="color:#006239 "
-                                                      href="https://platform.openai.com/account/api-keys">here</a>.</p>
+      <p>Enter your OpenAI API key, which you can obtain <a target="_blank" style="color:#006239"
+                                                            href="https://platform.openai.com/account/api-keys">here</a>.
+      </p>
+      <p>Your API key will only be stored in memory and will be cleared if the browser is refreshed.</p>
+      <p>Details on how your API key is used can be found in <a target="_blank" style="color:#006239"
+                                                                href="https://github.com/nadirbelarouci/easy-rls/blob/main/supabase/functions/easy-rls/index.ts">this
+        file</a>.</p>
     </div>
-
     <mat-form-field class="role" (click)="$event.stopPropagation()">
       <mat-label>Role</mat-label>
       <input #input matInput/>

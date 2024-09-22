@@ -1,5 +1,5 @@
 <div >
   @for (table of tables; track table) {
-    <app-permission [role]="role()" [resource]="table"></app-permission>
+    <app-permission [role]="role()" [resource]="table" (deleteTableEvent)="deleteTable($event)"></app-permission>
   }
 </div>

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, output} from '@angular/core';
 import {FormBuilder, FormGroup, FormControl, Validators, ReactiveFormsModule} from '@angular/forms';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -6,6 +6,8 @@ import {NgForOf, NgIf, TitleCasePipe} from "@angular/common";
 import {MatInput} from "@angular/material/input";
 import {MatIcon} from "@angular/material/icon";
 import {MatCheckbox} from "@angular/material/checkbox";
+import {MatIconButton} from "@angular/material/button";
+import {MatTooltip} from "@angular/material/tooltip";
 
 interface Permission {
   resource: string;
@@ -16,13 +18,14 @@ interface Permission {
 @Component({
   selector: 'app-permission',
   standalone: true,
-  imports: [MatExpansionModule, ReactiveFormsModule, MatFormFieldModule, NgIf, NgForOf, MatInput, MatIcon, MatCheckbox, TitleCasePipe],
+  imports: [MatExpansionModule, ReactiveFormsModule, MatFormFieldModule, NgIf, NgForOf, MatInput, MatIcon, MatCheckbox, TitleCasePipe, MatIconButton, MatTooltip],
   templateUrl: './permission.component.html',
   styleUrls: ['./permission.component.scss']
 })
 export class PermissionComponent implements OnInit {
   @Input() resource!: string;
   @Input() role!: string;
+  deleteTableEvent = output<string>()
   form!: FormGroup;
   actions = ['select', 'update', 'insert', 'delete'];
   indeterminate: boolean = false;
@@ -115,5 +118,9 @@ export class PermissionComponent implements OnInit {
   get valid() {
     this.form.markAllAsTouched()
     return this.form.valid
+  }
+
+  deleteSelf() {
+    this.deleteTableEvent.emit(this.resource);
   }
 }

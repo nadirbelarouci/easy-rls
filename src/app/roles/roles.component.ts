@@ -10,6 +10,7 @@ import {NgIf, TitleCasePipe} from "@angular/common";
 import {EditorComponent} from "ngx-monaco-editor-v2";
 import {interval} from "rxjs";
 import {MatChip, MatChipSet, MatChipsModule} from "@angular/material/chips";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-roles',
@@ -32,7 +33,8 @@ import {MatChip, MatChipSet, MatChipsModule} from "@angular/material/chips";
     MatIconButton,
     MatTabLabel,
     EditorComponent,
-    MatChipsModule
+    MatChipsModule,
+    MatTooltip
   ],
   templateUrl: './roles.component.html',
   styleUrl: './roles.component.css'
@@ -45,14 +47,18 @@ export class RolesComponent implements OnInit{
   deleteTableEvent = output<string>();
   roleComponents = viewChildren(RoleComponent);
   saveInterval = interval(2000)
+  claims: string = '';
 
   ngOnInit(): void {
     const roles = localStorage.getItem('roles');
     if (!!roles){
-      this.roles = new Set(Object.keys(JSON.parse(roles)));
+      const result = JSON.parse(roles);
+      this.roles = new Set(Object.keys(result));
     }
+    this.claims  = localStorage.getItem('JWTClaims') || ''
     this.saveInterval.subscribe(() => {
       localStorage.setItem('roles', JSON.stringify(this.value))
+      localStorage.setItem('JWTClaims',this.claims)
     })
   }
 
@@ -78,10 +84,8 @@ export class RolesComponent implements OnInit{
   }
 
   submit() {
-    console.log("whaat")
-
     if(this.valid){
-      this.generateEvent.emit(this.value);
+      this.generateEvent.emit({roles:this.value,jwtClaims:this.claims});
     }
   }
 

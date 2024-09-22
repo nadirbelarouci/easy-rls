@@ -1,10 +1,5 @@
 <div class="container">
   <div class="row">
-    <mat-form-field class="role">
-      <mat-label>Role</mat-label>
-      <input #input matInput/>
-      <mat-icon matSuffix>admin_panel_settings</mat-icon>
-    </mat-form-field>
     <button mat-raised-button
             [disabled]="input.value === ''"
             (click)="addRole(input.value)">
@@ -12,11 +7,20 @@
       <mat-icon >add</mat-icon>
 
     </button>
+    <mat-form-field class="role" matTooltip="Type a role">
+      <mat-label>Role</mat-label>
+      <input #input matInput/>
+      <mat-icon matSuffix>admin_panel_settings</mat-icon>
+    </mat-form-field>
+    <mat-form-field class="role" matTooltip="Type comma seperated JWT claims">
+      <mat-label>Role</mat-label>
+      <input [(ngModel)]="claims" matInput/>
+      <mat-icon matSuffix>info</mat-icon>
+    </mat-form-field>
     <span class="spacer"></span>
     <button mat-raised-button (click)="clear()">
       Clear
       <mat-icon >delete</mat-icon>
-
     </button>
     <button mat-raised-button style="background-color: #006239" (click)="submit()">
       Generate RLS Policies
@@ -26,16 +30,16 @@
 
   @if (roles.size !== 0) {
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" style="overflow-y: auto">
-
       @for (role of roles; track role) {
         <mat-tab>
+
           <ng-template mat-tab-label>
             {{ role|titlecase }}
             <button style="pointer-events: auto" (click)="removeRole(role);$event.stopPropagation()" mat-icon-button>
               <mat-icon>close</mat-icon>
             </button>
           </ng-template>
-          <app-role [tables]="tables" [role]="role"></app-role>
+          <app-role [tables]="tables" [role]="role" (deleteTableEvent)="deleteTable($event)"></app-role>
         </mat-tab>
 
       }
@@ -45,6 +49,9 @@
 
       <p>
         Click Add role to configure row level security for the following tables:
+      </p>
+      <p>
+        Note: These roles are not the postgres roles, but your specific application roles.
       </p>
         <mat-chip-set>
           @for (table of tables; track table) {

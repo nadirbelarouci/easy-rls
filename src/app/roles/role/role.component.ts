@@ -1,4 +1,4 @@
-import {Component, Input, input, OnInit, viewChildren} from '@angular/core';
+import {Component, Input, input, OnInit, output, viewChildren} from '@angular/core';
 import {MatAccordion} from "@angular/material/expansion";
 import {PermissionComponent} from "../permission/permission.component";
 
@@ -15,6 +15,7 @@ import {PermissionComponent} from "../permission/permission.component";
 export class RoleComponent{
   role = input('');
   @Input() tables! :Set<string>;
+  deleteTableEvent = output<string>()
   permissionComponents = viewChildren(PermissionComponent);
 
   get value() {
@@ -28,5 +29,9 @@ export class RoleComponent{
 
   get valid() {
     return this.permissionComponents().map(permissionComponent => permissionComponent.valid).every(isValid => isValid)
+  }
+
+  deleteTable($event: string) {
+    this.deleteTableEvent.emit($event);
   }
 }

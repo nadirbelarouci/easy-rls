@@ -1,7 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {
-  deleteTableFromPrimaryKeys,
-  getTableNamesFromPrimaryKeys,
+  deleteTableFromPrimaryKeys, generatePolicies,
+  getTableNamesFromPrimaryKeys, JsonExample, rbacSQL,
   Schema,
   SchemaQuery,
   validateRelationsAndPrimaryKeys
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit{
   snackbar = inject(MatSnackBar)
   http = inject(HttpClient);
   editorOptions = {theme: 'vs-dark', language: 'sql'};
-  userSchema ='';
+  userSchema =JsonExample;
   schema!: Schema|undefined;
   protected readonly getTableNamesFromPrimaryKeys = getTableNamesFromPrimaryKeys;
    openAIAPIKey!: string;
@@ -46,6 +46,11 @@ export class AppComponent implements OnInit{
 
 
   async generateRLS(roles: any) {
+    if(!this.openAIAPIKey|| this.openAIAPIKey ===''){
+      this.snackbar.open('Your Open AI API Key is not set','close',{duration:5000});
+      return;
+    }
+
     let prompt = openaiPrompt;
     prompt = prompt.replace('$1',JSON.stringify(this.schema));
     prompt = prompt.replace('$2',JSON.stringify(roles));
@@ -61,8 +66,11 @@ export class AppComponent implements OnInit{
 
     this.http.post(endpointUrl, postData, { headers: headers })
       .subscribe({
-        next: (response: any) => { // Adjust the type if needed
-          this.sqlResponse = response.content
+        next: (response: any) => {
+          this.sqlResponse = rbacSQL;
+          this.sqlResponse += response.content.replace('```sql','').replace('```','')
+          this.sqlResponse += generatePolicies(this.schema as any)
+
         },
         error: (error: HttpErrorResponse) => {
           this.snackbar.open('EasyRLS request error:', 'Close', { duration: 5000 }); // Basic error message
@@ -96,4 +104,6 @@ export class AppComponent implements OnInit{
       localStorage.setItem('schema', JSON.stringify(this.schema));
     }
   }
+
+  protected readonly localStorage = localStorage;
 }

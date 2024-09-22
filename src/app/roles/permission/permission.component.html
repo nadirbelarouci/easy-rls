@@ -1,7 +1,12 @@
 <form  [formGroup]="form">
   <mat-expansion-panel #panel>
     <mat-expansion-panel-header>
-      <mat-panel-title> {{ resource | titlecase }}</mat-panel-title>
+      <mat-panel-title>
+        <button style="pointer-events: auto" matTooltip="Remove this resource" (click)="deleteSelf();$event.stopPropagation()" mat-icon-button>
+          <mat-icon>close</mat-icon>
+        </button>
+        {{ resource | titlecase  }}
+      </mat-panel-title>
       <mat-panel-description class="row">
 
         <div class="form-actions">
@@ -12,7 +17,7 @@
             {{ action }}
           </mat-checkbox>
         </div>
-        <mat-form-field (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()"
+        <mat-form-field matTooltip="Describe how the role {{role|titlecase}} will access this resource" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()"
                         class="form-description">
           <mat-label>Description</mat-label>
           <input matInput formControlName="description"/>
