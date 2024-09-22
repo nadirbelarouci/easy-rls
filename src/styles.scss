@@ -1,0 +1,39 @@
+@use '@angular/material' as mat;
+@use './m3-theme';
+
+@include mat.core();
+
+html {
+  // Apply the base theme at the root, so it will be inherited by the whole app.
+  @include mat.all-component-themes(m3-theme.$dark-theme);
+  @include mat.form-field-density(-3);
+
+}
+
+
+.danger {
+  // Override the checkbox hover state to indicate that this is a dangerous setting. No need to
+  // target the internal selectors for the elements that use these variables.
+  --mdc-checkbox-unselected-hover-state-layer-color: red;
+  --mdc-checkbox-unselected-hover-icon-color: red;
+}
+::-webkit-scrollbar {
+  width: 8px; /* Adjust width as needed */
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 8px; /* Adjust height for the horizontal scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Track background color */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* Thumb background color */
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Hover effect */
+}

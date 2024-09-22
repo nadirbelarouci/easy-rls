@@ -1,0 +1,36 @@
+@use '../../../../node_modules/@angular/material/index' as mat;
+
+::ng-deep .mat-expansion-panel-header-title{
+  flex-grow: 0!important;
+  min-width: 200px!important;
+}
+
+::ng-deep .mat-expansion-panel-header{
+  padding-top:10px!important;
+  padding-bottom: 20px!important;
+}
+
+::ng-deep .mat-expansion-panel {
+  border-radius: 0!important;
+}
+
+.row{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  width: 100%;
+}
+
+.form-actions{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+
+.form-description{
+    margin-top: 20px;
+    flex-grow: 1;
+}

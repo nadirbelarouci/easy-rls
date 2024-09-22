@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="row">
+    <mat-form-field class="role">
+      <mat-label>Role</mat-label>
+      <input #input matInput/>
+      <mat-icon matSuffix>admin_panel_settings</mat-icon>
+    </mat-form-field>
+    <button mat-raised-button
+            [disabled]="input.value === ''"
+            (click)="addRole(input.value)">
+      Add role
+      <mat-icon >add</mat-icon>
+
+    </button>
+    <span class="spacer"></span>
+    <button mat-raised-button (click)="clear()">
+      Clear
+      <mat-icon >delete</mat-icon>
+
+    </button>
+    <button mat-raised-button style="background-color: #006239" (click)="submit()">
+      Generate RLS Policies
+      <mat-icon >generating_tokens</mat-icon>
+    </button>
+  </div>
+
+  @if (roles.size !== 0) {
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" style="overflow-y: auto">
+
+      @for (role of roles; track role) {
+        <mat-tab>
+          <ng-template mat-tab-label>
+            {{ role|titlecase }}
+            <button style="pointer-events: auto" (click)="removeRole(role);$event.stopPropagation()" mat-icon-button>
+              <mat-icon>close</mat-icon>
+            </button>
+          </ng-template>
+          <app-role [tables]="tables" [role]="role"></app-role>
+        </mat-tab>
+
+      }
+    </mat-tab-group>
+  } @else {
+    <div style="padding: 20px">
+
+      <p>
+        Click Add role to configure row level security for the following tables:
+      </p>
+        <mat-chip-set>
+          @for (table of tables; track table) {
+            <mat-chip (removed)="deleteTable(table)">
+              {{ table|titlecase }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+          }
+        </mat-chip-set>
+
+    </div>
+  }
+
+</div>

@@ -1,0 +1,46 @@
+<form  [formGroup]="form">
+  <mat-expansion-panel #panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title> {{ resource | titlecase }}</mat-panel-title>
+      <mat-panel-description class="row">
+
+        <div class="form-actions">
+          <mat-checkbox (click)="$event.stopPropagation()"  (change)="updateAllActions($event.checked)" [checked]="allSelected" [indeterminate]="indeterminate" >
+            all
+          </mat-checkbox>
+          <mat-checkbox (click)="$event.stopPropagation()" (change)="checkAction(action,$event.checked)" [formControlName]="action" *ngFor="let action of actions">
+            {{ action }}
+          </mat-checkbox>
+        </div>
+        <mat-form-field (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()"
+                        class="form-description">
+          <mat-label>Description</mat-label>
+          <input matInput formControlName="description"/>
+          <mat-icon matSuffix>description</mat-icon>
+
+          <mat-error>
+            <span *ngIf="form.get('description')?.hasError('required')">{{
+                'Description is required'
+              }}
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="row" *ngFor="let action of actions">
+      <mat-checkbox style="width: 100px" (change)="checkAction(action,$event.checked)" [formControlName]="action">
+        {{ action }}
+      </mat-checkbox>
+      <mat-form-field class="form-description">
+        <mat-label>Description</mat-label>
+        <input matInput [formControlName]="action+'Description'"/>
+        <mat-icon matSuffix>description</mat-icon>
+        <mat-error>
+            <span *ngIf="form.get(action+'Description')?.hasError('required')">{{'Description is required' }}
+            </span>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+  </mat-expansion-panel>
+</form>

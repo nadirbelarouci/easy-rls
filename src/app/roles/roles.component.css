@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.row{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.spacer{
+  flex-grow: 1;
+}
+.role{
+  margin-top: 20px;
+}

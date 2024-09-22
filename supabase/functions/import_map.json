@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "cors": "npm:cors@^2.8.5",
+    "express": "npm:express@4.19.2",
+    "openai" : "npm:openai@4.63.0"
+  }
+}

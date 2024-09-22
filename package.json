@@ -18,6 +18,9 @@
     "@angular/platform-browser": "^18.2.5",
     "@angular/platform-browser-dynamic": "^18.2.5",
     "@angular/router": "^18.2.5",
+    "monaco-editor": "^0.50.0",
+    "ngx-monaco-editor-v2": "^18.1.0",
+    "openai": "^4.63.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
