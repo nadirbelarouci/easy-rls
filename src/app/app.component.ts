@@ -74,6 +74,8 @@ export class AppComponent implements OnInit{
         },
         error: (error: HttpErrorResponse) => {
           this.snackbar.open('EasyRLS request error:', 'Close', { duration: 5000 }); // Basic error message
+          this.sqlResponse = rbacSQL;
+          this.sqlResponse += generatePolicies(this.schema as any)
 
           if (error.error instanceof ErrorEvent) {
             // Client-side error
@@ -88,6 +90,7 @@ export class AppComponent implements OnInit{
             } else {
               // Handle other OpenAI API errors
               this.snackbar.open('Error details: ' + JSON.stringify(error.error), 'Close', { duration: 5000 });
+
             }
           }
         }
